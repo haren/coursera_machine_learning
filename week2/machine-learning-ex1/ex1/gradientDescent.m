@@ -21,11 +21,12 @@ for iter = 1:num_iters
     h = X * theta;
 
     % compute errors for each x
-    errors0 = (h - y) .* X(:,1);
-    errors1 = (h - y) .* X(:,2);
+    errors = (h - y) .* X;
 
-    theta(1) = theta(1) - alpha * 1/m * sum(errors0);
-    theta(2) = theta(2) - alpha * 1/m * sum(errors1);
+    % subtract theta, sum(errors) needs to be transposed, equivalent to:
+    % theta(1) = theta(1) - ((alpha * 1/m) * sum(errors)(1));
+    % theta(2) = theta(2) - ((alpha * 1/m) * sum(errors)(2));
+    theta = theta - (alpha / m) * sum(errors)';
 
     % ============================================================
 

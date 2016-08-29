@@ -17,7 +17,7 @@ for iter = 1:num_iters
     %       of the cost function (computeCostMulti) and gradient here.
     %
 
-    % code from previous excercise already supports multiple features
+    % code from previous exercise already supports multiple features
     h = X * theta;
     errors = (h - y) .* X;
     theta = theta - (alpha / m) * sum(errors)';

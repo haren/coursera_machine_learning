@@ -21,10 +21,12 @@ grad = zeros(size(theta));
 %
 
 % compute hypothesis; this is different from linear regression:
-h = sigmoid(X * theta)
+h = sigmoid(X * theta);
 % 1 - matrix is equivalent to ones - matrix or ones(size(matrix))
-errors = (-y .* log(h)) - ((1 - y) .* log(1 - h));
+errors = (-y' * log(h)) - ((1 - y)' * log(1 - h));
 J = 1/m * sum(errors);
+
+grad = 1/m *(X'*h - X'*y)
 
 % =============================================================
 

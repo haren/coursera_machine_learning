@@ -26,7 +26,7 @@ h = sigmoid(X * theta);
 errors = (-y' * log(h)) - ((1 - y)' * log(1 - h));
 J = 1/m * sum(errors);
 
-grad = 1/m *(X'*h - X'*y)
+grad = 1/m *(X'*h - X'*y);
 
 % =============================================================
 

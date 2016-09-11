@@ -30,11 +30,14 @@ X = [ones(m, 1) X];
 %       for each row.
 %
 
-for i=1:m
-	probs = X(i,:) * all_theta';
-	[_, p(i)] = max(probs);
-end
+% iterative:
+% for i=1:m
+% 	probs = X(i,:) * all_theta';
+% 	[_, p(i)] = max(probs);
+% end
 
+% vectorized
+[_, p] = max(X * all_theta', [], 2);
 
 % =========================================================================
 

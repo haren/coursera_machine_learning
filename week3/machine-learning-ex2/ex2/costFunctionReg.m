@@ -23,7 +23,7 @@ grad = zeros(size(theta));
 regFactor = lambda/(2*m) * sum(theta(2:end) .^ 2);
 J = J + regFactor;
 
-% regularized
+% regularized, do not regularize theta (1)
 gradRedFactor = lambda / m * theta;
 grad = grad + [0; gradRedFactor(2:end)];
 

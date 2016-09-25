@@ -49,9 +49,9 @@ h = sigmoid(z3);
 
 % Convert y from (1-10) class into num_labels vector
 yd = eye(num_labels);
-y2 = yd(y,:);
+y = yd(y,:);
 
-errors = (-y2) .* log(h) - (1 - y2) .* log(1 - h);
+errors = (-y) .* log(h) - (1 - y) .* log(1 - h);
 J = 1 / m .* sum(sum(errors));
 
 % add regularization
@@ -77,33 +77,14 @@ J += lambda / (2 * m) * (sum(sum(Theta1r .^ 2)) + sum(sum(Theta2r .^ 2)));
 %               first time.
 %
 
-for t = 1:m
+delta_3 = h - y;
 
-	% For the input layer, where l=1:
-	a1 = [1; X(t,:)'];
+z2 = [ones(m,1) z2];
+delta_2 = delta_3 * Theta2 .* sigmoidGradient(z2);
+delta_2 = delta_2(:, 2:end);
 
-	% For the hidden layers, where l=2:
-	z2 = Theta1 * a1;
-	a2 = [1; sigmoid(z2)];
-
-	z3 = Theta2 * a2;
-	a3 = sigmoid(z3);
-
-	yy = ([1:num_labels]==y(t))';
-	% For the delta values:
-	delta_3 = a3 - yy;
-
-	delta_2 = (Theta2' * delta_3) .* [1; sigmoidGradient(z2)];
-	delta_2 = delta_2(2:end);
-
-	% Big delta update
-	Theta1_grad = Theta1_grad + delta_2 * a1';
-	Theta2_grad = Theta2_grad + delta_3 * a2';
-end
-
-Theta1_grad = (1/m) * Theta1_grad;
-Theta2_grad = (1/m) * Theta2_grad;
-
+Theta1_grad=(1 / m) .* delta_2' * a1;
+Theta2_grad=(1 / m) .* delta_3' * a2;
 
 % Part 3: Implement regularization with the cost function and gradients.
 %

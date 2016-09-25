@@ -47,32 +47,18 @@ a2 = [ones(m,1) sigmoid(z2)];
 z3 = a2 * Theta2';
 h = sigmoid(z3);
 
-for i = 1:m
-	% TODO use eye() and drop the loops
-	curr_y = zeros(num_labels, 1);
-	curr_y(y(i)) = 1;
-	for k=1:num_labels
-		curr_error = - curr_y(k) * log(h(i,k)) - (1 - curr_y(k)) * log(1 - h(i,k));
-		J += curr_error;
-	end
-end
+% Convert y from (1-10) class into num_labels vector
+yd = eye(num_labels);
+y2 = yd(y,:);
 
-J /= m;
+errors = (-y2) .* log(h) - (1 - y2) .* log(1 - h);
+J = 1 / m .* sum(sum(errors));
 
 % add regularization
-J_reg = 0;
-for j = 1:size(Theta1,1)
-	for k = 1:(size(Theta1,2) - 1)
-		J_reg += Theta1(j,k+1)^2;
-	end
-end
-for j = 1:size(Theta2,1)
-	for k = 1:(size(Theta2,2) - 1)
-		J_reg += Theta2(j,k+1)^2;
-	end
-end
-J_reg = J_reg * lambda / (2*m);
-J += J_reg;
+Theta1r = Theta1(:, 2:end);
+Theta2r = Theta2(:, 2:end);
+
+J += lambda / (2 * m) * (sum(sum(Theta1r .^ 2)) + sum(sum(Theta2r .^ 2)));
 
 %
 % Part 2: Implement the backpropagation algorithm to compute the gradients

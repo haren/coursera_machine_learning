@@ -48,11 +48,26 @@ for i = 1:m
 	curr_y(y(i)) = 1;
 	for k=1:num_labels
 		curr_error = - curr_y(k) * log(h(i,k)) - (1 - curr_y(k)) * log(1 - h(i,k));
-		J = J + curr_error;
+		J += curr_error;
 	end
 end
 
-J = J / m;
+J /= m;
+
+% add regularization
+J_reg = 0;
+for j = 1:size(Theta1,1)
+	for k = 1:(size(Theta1,2) - 1)
+		J_reg += Theta1(j,k+1)^2;
+	end
+end
+for j = 1:size(Theta2,1)
+	for k = 1:(size(Theta2,2) - 1)
+		J_reg += Theta2(j,k+1)^2;
+	end
+end
+J_reg = J_reg * lambda / (2*m);
+J += J_reg;
 
 %
 % Part 2: Implement the backpropagation algorithm to compute the gradients

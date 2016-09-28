@@ -27,6 +27,11 @@ J = 1 / (2 * m) * sum(errors);
 regFactor = lambda / (2 * m) * sum(theta(2:end) .^ 2);
 J += regFactor;
 
+grad = 1 / m *(X' * h -  X' * y);
+% regularized, do not regularize theta (1)
+gradRedFactor = lambda / m * theta;
+grad += [0; gradRedFactor(2:end)];
+
 % =========================================================================
 
 grad = grad(:);

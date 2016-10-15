@@ -26,24 +26,9 @@ centroids = zeros(K, n);
 % Note: You can use a for-loop over the centroids to compute this.
 %
 
-% for each centroid:
-% 	get from X where idx == currentr centroid, length m
-% 	compute 1/m * sum of m
-% end
-
 for c = 1 : K
-	current_cluster = [];
-	for i = 1 : size(idx)
-		if c == idx(i)
-			current_cluster = [X(i, :); current_cluster];
-		end
-	end
-	disp(size(current_cluster));
-	disp(size(current_cluster, 1));
-	disp(sum(current_cluster));
-	disp('<<<<<<<<<<<<<<');
+	current_cluster = X(find(idx==c), :);
 	centroids(c, :) = 1 / size(current_cluster, 1) .* sum(current_cluster);
-	disp(centroids(c));
 end
 
 % =============================================================

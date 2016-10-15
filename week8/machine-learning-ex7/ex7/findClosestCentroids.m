@@ -21,29 +21,14 @@ idx = zeros(size(X,1), 1);
 % Note: You can use a for-loop over the examples to compute this.
 %
 
-N = size(X,2);
 distances = zeros(size(X,1), K);
-
-
 for i = 1 : size(X,1)
 	for j = 1 : K
-		for n = 1 : N
-			distances(i,j) += (X(i, n) - centroids(j, n)) ^ 2;
-		end
+		distances(i,j) = sum((X(i, :) - centroids(j, :)) .^ 2);
 	end
-	[val, indx] = min(distances(i, :));
-	idx(i) = indx;
-	% disp(distances(i, :));
-	% disp(val);
-	% disp(idx(i));
+	[val, idx(i)] = min(distances(i, :));
 end
-
-% idx = find(val==distances);
-
-% disp(distances);
-% disp(idx);
 
 % =============================================================
 
 end
-

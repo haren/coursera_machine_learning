@@ -40,9 +40,14 @@ Theta_grad = zeros(size(Theta));
 %                     partial derivatives w.r.t. to each element of Theta
 %
 
+% compute cost
 J = (X * Theta' - Y) .^ 2;
 J = sum(sum(J(R == 1))) / 2;
 
+% add regularization
+J += lambda / 2 * (sum(sum(Theta .^ 2)) + sum(sum(X .^ 2)));
+
+% compute gradients
 X_grad = ((X * Theta' - Y) .* R) * Theta;
 Theta_grad = ((X * Theta' - Y) .* R)' * X;
 
